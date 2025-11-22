@@ -11,7 +11,7 @@ namespace Codeworkhub.Pages
         {
             Cards = new List<CardItem>
             {
-                new("Math Quiz Game", "Challenge yourself with auto-generated math problems.", "/MathQuiz", "🧠"),
+                new("Math Quiz Game", "Challenge yourself with auto-generated math problems.", "/Apps/MathQuiz/Quiz", "🧠"),
                 new("Rock-Paper-Scissors", "Play against AI and track your win streak.", "/RPS", "✊"),
                 new("Typing Speed Test", "Measure your words per minute and accuracy.", "/TypingTest", "⌨️"),
                 new("Flashcards Study Tool", "Flip through learning cards with smooth animations.", "/Flashcards", "📚"),

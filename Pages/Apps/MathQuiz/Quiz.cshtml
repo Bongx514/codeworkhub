@@ -1,0 +1,51 @@
+﻿@page
+@model Codeworkhub.Pages.Apps.MathQuiz.QuizModel
+@{
+}
+
+<div class="min-h-screen bg-gradient-to-br from-indigo-900 via-slate-900 to-black text-white p-6 flex justify-center items-center">
+    <div class="w-full max-w-3xl bg-slate-800/50 backdrop-blur-lg rounded-2xl shadow-2xl p-8 space-y-6 border border-indigo-500/30">
+
+        <h1 class="text-3xl font-extrabold text-center tracking-widest text-indigo-300">
+            <i class="fa-solid fa-calculator text-indigo-400"></i> FUTURE MATH QUIZ
+        </h1>
+
+        <form method="post">
+            @for (int i = 0; i < Model.Questions.Count; i++)
+            {
+                <div class="mb-6">
+                    <p class="text-lg font-semibold mb-3">
+                        <i class="fa-solid fa-circle-question text-indigo-400"></i>
+                        Question @(i + 1): @Model.Questions[i].QuestionText
+                    </p>
+                    <input type="number" name="Answers[@i]" required
+                           class="w-full p-3 bg-slate-900 border border-indigo-500/50 rounded-xl focus:ring-4 ring-indigo-600 outline-none" />
+                </div>
+            }
+
+            <button type="submit"
+                    class="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/50
+                           py-3 rounded-xl font-bold tracking-widest text-lg">
+                <i class="fa-solid fa-paper-plane"></i> SUBMIT QUIZ
+            </button>
+        </form>
+    </div>
+</div>
+
+@if (Model.ShowResults)
+{
+    <!-- Scorecard Modal -->
+    <div class="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
+        <div class="bg-slate-800 text-white rounded-2xl p-10 max-w-md w-full text-center border border-indigo-500 shadow-2xl">
+            <h2 class="text-3xl font-bold mb-4"><i class="fa-solid fa-award text-yellow-400"></i> Score Card</h2>
+            <p class="text-xl mb-4">You scored: <span class="font-bold text-indigo-300">@Model.Score / 10</span></p>
+
+            <p class="text-2xl font-bold mb-6 @Model.GradeColor">@Model.GradeMessage</p>
+
+            <a href="/Apps/MathQuiz/Quiz"
+               class="block bg-indigo-600 hover:bg-indigo-700 transition-all py-3 mt-3 rounded-xl font-bold text-lg">
+                <i class="fa-solid fa-rotate-right"></i> TRY AGAIN
+            </a>
+        </div>
+    </div>
+}
