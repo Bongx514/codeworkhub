@@ -1,0 +1,59 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<section class="min-h-screen w-full bg-gradient-to-br from-[#0a0f24] via-[#0d1330] to-[#080b18] text-white px-6 py-20">
+    <div class="max-w-6xl mx-auto text-center space-y-6">
+        <h1 class="text-5xl md:text-7xl font-extrabold tracking-widest drop-shadow-lg neon-text animate-pulse">
+            INTERACTIVE EXPERIENCE HUB
+        </h1>
+        <p class="text-xl opacity-80 max-w-3xl mx-auto">
+            Choose from a variety of futuristic interactive web tools and games — all powered with pure C# logic inside Razor Pages.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mt-14">
+        @foreach (var card in Model.Cards)
+        {
+            <a href="@card.Link"
+               class="group bg-[#12172d] hover:bg-[#1d2447] rounded-2xl p-6 shadow-xl border border-gray-700 hover:border-indigo-500
+                      transition-all duration-500 card-glow cursor-pointer"
+               data-aos="zoom-in" data-aos-duration="1000">
+
+                <div class="flex items-center justify-between">
+                    <h2 class="text-2xl font-bold neon-blue">@card.Title</h2>
+                    <span class="text-4xl font-black opacity-60 group-hover:opacity-100 transition">@card.Icon</span>
+                </div>
+
+                <p class="mt-4 text-gray-300 group-hover:text-gray-200 transition leading-relaxed">
+                    @card.Description
+                </p>
+
+                <button class="mt-6 w-full py-2 rounded-xl font-semibold text-black
+                               bg-gradient-to-r from-cyan-400 to-indigo-500
+                               group-hover:from-indigo-500 group-hover:to-purple-500
+                               transition-transform group-hover:scale-105 duration-300">
+                    Explore
+                </button>
+            </a>
+        }
+    </div>
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>AOS.init();</script>
+
+<style>
+    .neon-text {
+        text-shadow: 0 0 10px #4af3ff, 0 0 20px #4af3ff, 0 0 40px #00eaff;
+    }
+    .card-glow:hover {
+        box-shadow: 0 0 20px #3b82f6, 0 0 40px rgba(59,130,246,0.6);
+    }
+    .neon-blue {
+        color:#7ddcff;
+    }
+</style>
+
