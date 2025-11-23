@@ -21,11 +21,11 @@
                  class="w-28 h-28 animate-bounce drop-shadow-lg" />
         </div>
 
-        <textarea id="aiOutput"
-                  class="w-full h-40 p-4 bg-[#0d1330] border border-cyan-400 text-cyan-300 rounded-2xl
-                     resize-none font-mono text-lg tracking-wide shadow-inner text-left"
-                  disabled>
-        </textarea>
+        <div id="aiOutput"
+             class="w-full min-h-40 max-h-screen p-4 bg-[#0d1330] border border-cyan-400 text-cyan-300 rounded-2xl
+            font-mono text-lg tracking-wide shadow-inner text-left overflow-y-auto whitespace-pre-line">
+        </div>
+
 
         <div class="flex gap-2">
             <input id="userInput"
@@ -60,52 +60,69 @@
 <script>AOS.init();</script>
 
 <script>
-    const botReplies = [
-        "Hi, our team is working hard to get this AI integration working to better your experience, may take longer than expected do not get your hopes up...😂, ",
-        "LOL, seriously, come back tomorrow 😅"
-    ];
+        const botReplies = [
+            "Hi, our team is working hard to get this AI integration working, may take longer than expected do not get your hopes up...😂,",
+            "LOL, seriously, come back tomorrow 😅",
+            `<div>You can still try the following for now:<br>
+    <a href="/Apps/MathQuiz/Quiz" class="text-cyan-400 underline hover:text-indigo-400">1. MathsQuiz</a><br>
+    <a href="/Apps/RockPaperScissors/Game" class="text-cyan-400 underline hover:text-indigo-400">2. Rock Paper Scissors</a><br>
+    <a href="/Apps/Typingfast/Typefast" class="text-cyan-400 underline hover:text-indigo-400">3. Typing Speed Test</a></div>`
+        ];
 
-    const output = document.getElementById("aiOutput");
-    const input = document.getElementById("userInput");
-    const sendBtn = document.getElementById("sendBtn");
+        const output = document.getElementById("aiOutput");
+        const input = document.getElementById("userInput");
+        const sendBtn = document.getElementById("sendBtn");
 
-    async function typeEffect(text, prefix) {
-        output.value += prefix;
-        for (let i = 0; i < text.length; i++) {
-            output.value += text[i];
+        async function typeText(text, prefix) {
+            const container = document.createElement("div");
+            container.innerHTML = `<span>${prefix}</span>`;
+            output.appendChild(container);
+
+            for (let i = 0; i < text.length; i++) {
+                container.innerHTML += text[i];
+                output.scrollTop = output.scrollHeight;
+                await new Promise(res => setTimeout(res, 35));
+            }
+            output.appendChild(document.createElement("br"));
+        }
+
+        async function typeHTML(html) {
+            const container = document.createElement("div");
+            container.innerHTML = html;
+            output.appendChild(container);
             output.scrollTop = output.scrollHeight;
-            await new Promise(res => setTimeout(res, 40)); 
+            await new Promise(res => setTimeout(res, 500));
         }
-        output.value += "\n";
-    }
 
-    async function sendMessage() {
-        const text = input.value.trim();
-        if (!text) return;
+        async function sendMessage() {
+            const text = input.value.trim();
+            if (!text) return;
 
-        output.value += `🧑 You: ${text}\n`;
-        input.value = "";
+            output.innerHTML += `<div>🧑 You: ${text}</div>`;
+            input.value = "";
 
-        await new Promise(res => setTimeout(res, 400));
+            await new Promise(res => setTimeout(res, 400));
 
-        for (const reply of botReplies) {
-            await typeEffect(reply, "🤖 Bot: ");
-            await new Promise(res => setTimeout(res, 600));
+            for (const reply of botReplies) {
+                // check if reply contains HTML links
+                if (/<a\s+href/.test(reply)) {
+                    await typeHTML(reply);
+                } else {
+                    await typeText(reply, "🤖 Bot: ");
+                }
+                await new Promise(res => setTimeout(res, 600));
+            }
         }
-    }
 
-    sendBtn.addEventListener("click", sendMessage);
+        sendBtn.addEventListener("click", sendMessage);
 
-    input.addEventListener("keypress", e => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            sendMessage();
-        }
-    });
+        input.addEventListener("keypress", e => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
 </script>
-
-
-
 
 <style>
     .neon-text {
