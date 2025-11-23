@@ -14,12 +14,26 @@
         </p>
     </div>
 
+    <div class="max-w-4xl mx-auto mt-14 relative">
+        <div class="flex justify-center mb-6">
+            <img src="https://cdn-icons-png.flaticon.com/512/4712/4712100.png"
+                 alt="AI Bot"
+                 class="w-32 h-32 animate-bounce drop-shadow-lg" />
+        </div>
+
+        <textarea disabled
+                  id="aiMessage"
+                  class="w-full h-32 p-4 bg-[#0d1330] border border-cyan-400 text-cyan-300 rounded-2xl
+                         resize-none font-mono text-lg tracking-wide shadow-inner text-left">
+        </textarea>
+    </div>
+
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mt-14">
         @foreach (var card in Model.Cards)
         {
             <a href="@card.Link"
                class="group bg-[#12172d] hover:bg-[#1d2447] rounded-2xl p-6 shadow-xl border border-gray-700 hover:border-indigo-500
-                      transition-all duration-500 card-glow cursor-pointer"
+                          transition-all duration-500 card-glow cursor-pointer"
                data-aos="zoom-in" data-aos-duration="1000">
 
                 <div class="flex items-center justify-between">
@@ -32,9 +46,9 @@
                 </p>
 
                 <button class="mt-6 w-full py-2 rounded-xl font-semibold text-black
-                               bg-gradient-to-r from-cyan-400 to-indigo-500
-                               group-hover:from-indigo-500 group-hover:to-purple-500
-                               transition-transform group-hover:scale-105 duration-300">
+                                   bg-gradient-to-r from-cyan-400 to-indigo-500
+                                   group-hover:from-indigo-500 group-hover:to-purple-500
+                                   transition-transform group-hover:scale-105 duration-300">
                     Explore
                 </button>
             </a>
@@ -45,15 +59,46 @@
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>AOS.init();</script>
 
+<script>
+    const messages = [
+        "AI integration under construction...",
+        "May take longer than expected 😂",
+        "Do not get your hopes up...",
+        "LOL, seriously, come back tomorrow 😅"
+    ];
+
+    let index = 0;
+    let charIndex = 0;
+    const textArea = document.getElementById("aiMessage");
+
+    function typeText() {
+        if (charIndex < messages[index].length) {
+            textArea.value += messages[index][charIndex];
+            charIndex++;
+            setTimeout(typeText, 80);
+        } else {
+            setTimeout(() => {
+                textArea.value = "";
+                charIndex = 0;
+                index = (index + 1) % messages.length;
+                typeText();
+            }, 2500);
+        }
+    }
+
+    window.onload = typeText;
+</script>
+
 <style>
     .neon-text {
         text-shadow: 0 0 10px #4af3ff, 0 0 20px #4af3ff, 0 0 40px #00eaff;
     }
+
     .card-glow:hover {
         box-shadow: 0 0 20px #3b82f6, 0 0 40px rgba(59,130,246,0.6);
     }
+
     .neon-blue {
-        color:#7ddcff;
+        color: #7ddcff;
     }
 </style>
-
