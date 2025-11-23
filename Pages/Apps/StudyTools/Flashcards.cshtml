@@ -1,0 +1,117 @@
+﻿@page
+@model Codeworkhub.Pages.Apps.StudyTools.FlashcardsModel
+@{
+    ViewData["Title"] = "Flashcards";
+}
+
+<section class="min-h-screen w-full bg-gradient-to-br from-[#0a0f24] via-[#0d1330] to-[#080b18] text-white px-6 py-20">
+    <div class="max-w-5xl mx-auto text-center space-y-6">
+        <h1 class="text-4xl md:text-6xl font-extrabold tracking-widest drop-shadow-lg neon-text animate-pulse">
+            FLASHCARDS
+        </h1>
+        <p class="text-lg opacity-80 max-w-3xl mx-auto">
+            Study smarter! Click on each card to reveal the answer. Navigate through your flashcards easily.
+        </p>
+    </div>
+
+    <div class="max-w-3xl mx-auto mt-8 flex justify-center">
+        <select id="categorySelect" class="p-3 rounded-xl bg-[#12172d] border border-cyan-400 text-cyan-300 font-mono">
+            @foreach (var category in Model.Categories.Keys)
+            {
+                <option value="@category">@category.ToUpper()</option>
+            }
+        </select>
+    </div>
+
+    <div class="max-w-3xl mx-auto mt-8 flex flex-col items-center space-y-6">
+        <div id="flashcard" class="w-full md:w-96 h-56 bg-[#12172d] border border-cyan-400 rounded-2xl shadow-xl
+                                    flex items-center justify-center text-2xl font-bold text-cyan-300 cursor-pointer
+                                    perspective">
+            <div id="flashcard-inner" class="w-full h-full relative transition-transform duration-500 transform-style-preserve-3d">
+                <div id="flashcard-front" class="absolute w-full h-full backface-hidden flex items-center justify-center">
+                    @Model.Cards[0].Question
+                </div>
+                <div id="flashcard-back" class="absolute w-full h-full backface-hidden rotate-y-180 flex items-center justify-center text-indigo-400">
+                    @Model.Cards[0].Answer
+                </div>
+            </div>
+        </div>
+
+        <div class="flex gap-4">
+            <button id="prevBtn" class="px-6 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-purple-500 hover:to-indigo-500 font-semibold text-black transition-transform hover:scale-105">
+                Previous
+            </button>
+            <button id="nextBtn" class="px-6 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-indigo-500 hover:from-indigo-500 hover:to-purple-500 font-semibold text-black transition-transform hover:scale-105">
+                Next
+            </button>
+        </div>
+
+        <div id="cardCounter" class="text-cyan-400 font-mono mt-2">
+            1 / @Model.Cards.Count
+        </div>
+    </div>
+</section>
+
+<script>
+    let cards = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Cards));
+    let currentIndex = 0;
+
+    const flashcard = document.getElementById("flashcard");
+    const inner = document.getElementById("flashcard-inner");
+    const front = document.getElementById("flashcard-front");
+    const back = document.getElementById("flashcard-back");
+    const counter = document.getElementById("cardCounter");
+    const categorySelect = document.getElementById("categorySelect");
+
+    function updateCard() {
+        front.textContent = cards[currentIndex].Question;
+        back.textContent = cards[currentIndex].Answer;
+        inner.style.transform = 'rotateY(0deg)';
+        counter.textContent = `${currentIndex + 1} / ${cards.length}`;
+    }
+
+    flashcard.addEventListener("click", () => {
+        inner.style.transform = inner.style.transform === 'rotateY(180deg)' ? 'rotateY(0deg)' : 'rotateY(180deg)';
+    });
+
+    document.getElementById("prevBtn").addEventListener("click", () => {
+        currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+        updateCard();
+    });
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+        currentIndex = (currentIndex + 1) % cards.length;
+        updateCard();
+    });
+
+    categorySelect.addEventListener("change", e => {
+        const selected = e.target.value;
+        const allCategories = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(Model.Categories));
+        cards = allCategories[selected];
+        currentIndex = 0;
+        updateCard();
+    });
+</script>
+
+<style>
+    .neon-text {
+        text-shadow: 0 0 10px #4af3ff, 0 0 20px #4af3ff, 0 0 40px #00eaff;
+    }
+
+    .perspective {
+        perspective: 1000px;
+    }
+
+    #flashcard-inner {
+        transform-style: preserve-3d;
+    }
+
+    .backface-hidden {
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+    }
+
+    .rotate-y-180 {
+        transform: rotateY(180deg);
+    }
+</style>
