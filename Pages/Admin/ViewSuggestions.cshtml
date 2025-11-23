@@ -1,0 +1,24 @@
+﻿@page
+@model Codeworkhub.Pages.Admin.ViewSuggestionsModel
+@{
+    ViewData["Title"] = "Suggestions";
+}
+
+<div class="min-h-screen bg-gray-900 text-white p-10">
+    <h1 class="text-4xl font-extrabold neon-glow mb-6">User Suggestions</h1>
+
+    <pre class="bg-black border border-gray-700 rounded-xl p-6 whitespace-pre-wrap text-lg leading-relaxed">
+@Model.SuggestionContent
+    </pre>
+
+    <a asp-page="/Admin/Admin"
+       class="inline-block mt-8 px-6 py-3 bg-teal-500 hover:bg-teal-600 text-black font-bold rounded-xl">
+        Back to Admin
+    </a>
+</div>
+
+<style>
+    .neon-glow {
+        text-shadow: 0 0 10px #14b8a6, 0 0 20px #14b8a6, 0 0 30px #14b8a6, 0 0 40px #14b8a6;
+    }
+</style>

@@ -1,0 +1,136 @@
+﻿@page
+@model Codeworkhub.Pages.ComingSoonModel
+@{
+}
+
+<div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black text-white relative overflow-hidden">
+
+    <!-- Neon Title -->
+    <h1 class="text-5xl md:text-6xl font-extrabold mb-4 tracking-wider neon-glow text-center">
+        Interactive Experience Hub is coming soon <br />
+        <span class="text-teal-400">January 08, 2026</span>
+    </h1>
+
+    <p class="text-lg md:text-xl text-gray-300 font-light text-center max-w-3xl px-6 leading-relaxed">
+        Sorry, this page <span class="text-teal-400 font-bold">@ViewData["Title"]</span> Still under development. Stay tuned — it might be working tomorrow 👀.
+        Random updates will be happening at any time, because <span class="text-teal-400">you</span>
+        have exclusive access to this <span class="font-bold">beta version</span> of the platform.
+    </p>
+
+    <p class="text-md md:text-lg mt-4 text-center max-w-2xl text-gray-400 leading-relaxed">
+        We are open to suggestions on how to improve the experiences, games, utilities, and apps already available.
+        This site may be buggy or unstable at times — but we are working extremely hard to improve your experience. 🚀
+        Your feedback means everything to us.
+    </p>
+
+    <button onclick="toggleModal(true)"
+            class="mt-10 px-8 py-4 bg-teal-500 hover:bg-teal-600 transition-all text-black font-bold text-lg rounded-xl shadow-lg hover:scale-105">
+        💡 Suggest an Improvement
+    </button>
+
+</div>
+
+@if (TempData["Success"]?.ToString() == "true")
+{
+    <div id="savedModal" class="fixed inset-0 flex items-center justify-center bg-black/70 z-50">
+        <div class="bg-gray-900 text-white p-8 rounded-2xl shadow-2xl max-w-md w-full border border-teal-500 space-y-6 text-center">
+            <h2 class="text-3xl font-extrabold text-teal-400">Success 🎉</h2>
+            <p>Your suggestion has been saved successfully!</p>
+
+            <button onclick="location.href='/'"
+                    class="mt-6 px-6 py-3 bg-teal-500 hover:bg-teal-600 text-black rounded-xl font-bold shadow-md">
+                OK
+            </button>
+        </div>
+    </div>
+}
+@if (TempData["Error"]?.ToString() == "true")
+{
+    <div id="errorModal" class="fixed inset-0 flex items-center justify-center bg-black/70 z-50">
+        <div class="bg-gray-900 text-white p-8 rounded-2xl shadow-2xl max-w-md w-full border border-red-500 space-y-6 text-center">
+            <h2 class="text-3xl font-extrabold text-red-400">Oops! ❌</h2>
+            <p>There was a problem saving your suggestion. Please try again later.</p>
+
+            <button onclick="location.href='/ComingSoon'"
+                    class="mt-6 px-6 py-3 bg-red-500 hover:bg-red-600 rounded-xl font-bold shadow-md">
+                Try Again
+            </button>
+        </div>
+    </div>
+}
+
+
+<!-- Modal Backdrop -->
+<div id="suggestModal" class="hidden fixed inset-0 flex items-center justify-center bg-black/70 z-50">
+    <div class="bg-gray-900 text-white p-8 rounded-2xl shadow-2xl max-w-lg w-full border border-teal-500 space-y-6">
+
+        <h2 class="text-3xl font-extrabold text-teal-400 text-center mb-2">Submit a Suggestion</h2>
+
+        <form method="post" asp-page-handler="Suggest" class="space-y-4">
+
+            <div>
+                <label class="block mb-1 text-gray-300">Your Name</label>
+                <input id="nameInput" name="Name" type="text"
+                       class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2 focus:outline-none focus:ring focus:ring-teal-500">
+            </div>
+
+            <div class="flex items-center gap-2">
+                <input id="anonymousCheck" type="checkbox" onchange="toggleAnon()">
+                <label for="anonymousCheck" class="text-gray-300">Submit Anonymously</label>
+            </div>
+
+            <div>
+                <label class="block mb-1 text-gray-300">How did you get the link?</label>
+                <select name="Source"
+                        class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2 focus:outline-none focus:ring focus:ring-teal-500">
+                    <option>Friend / Personal Connection</option>
+                    <option>Social Media Post</option>
+                    <option>Shared via WhatsApp</option>
+                    <option>Beta Tester Invite</option>
+                    <option>Found it randomly 🤔</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="block mb-1 text-gray-300">Your Suggestion</label>
+                <textarea name="Suggestion" rows="4"
+                          class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2 focus:outline-none focus:ring focus:ring-teal-500"
+                          placeholder="Tell us what to improve or add..."></textarea>
+            </div>
+
+            <div class="flex justify-between mt-4">
+                <button type="button"
+                        onclick="toggleModal(false)"
+                        class="px-6 py-2 border border-gray-600 rounded-xl hover:bg-gray-700 transition-all">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                        class="px-6 py-2 bg-teal-500 hover:bg-teal-600 rounded-xl text-black font-bold">
+                    Submit
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    function toggleModal(open) {
+        document.getElementById('suggestModal').classList.toggle('hidden', !open);
+    }
+
+    function toggleAnon() {
+        const nameInput = document.getElementById("nameInput");
+        const check = document.getElementById("anonymousCheck");
+        nameInput.disabled = check.checked;
+        if (check.checked) nameInput.value = "";
+    }
+</script>
+
+<style>
+    .neon-glow {
+        text-shadow: 0 0 10px #14b8a6, 0 0 20px #14b8a6, 0 0 30px #14b8a6, 0 0 40px #14b8a6;
+    }
+</style>

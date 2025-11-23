@@ -1,0 +1,26 @@
+﻿@page
+@model Codeworkhub.Pages.Admin.AdminModel
+@{
+}
+
+<div class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-black via-gray-900 to-black text-white text-center">
+    <h1 class="text-5xl font-extrabold neon-glow mb-10">Admin Dashboard</h1>
+
+    <div class="flex flex-col gap-6 w-full max-w-lg">
+        <a asp-page="/Admin/ViewSuggestions"
+           class="px-8 py-4 bg-teal-500 hover:bg-teal-600 transition-all text-black font-bold text-xl rounded-xl shadow-lg hover:scale-105">
+            📄 See Suggestions
+        </a>
+
+        <a asp-page="/Admin/ViewContacts"
+           class="px-8 py-4 bg-indigo-500 hover:bg-indigo-600 transition-all text-black font-bold text-xl rounded-xl shadow-lg hover:scale-105">
+            📩 See Contacts
+        </a>
+    </div>
+</div>
+
+<style>
+    .neon-glow {
+        text-shadow: 0 0 10px #14b8a6, 0 0 20px #14b8a6, 0 0 30px #14b8a6, 0 0 40px #14b8a6;
+    }
+</style>
