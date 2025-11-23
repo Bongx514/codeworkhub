@@ -7,14 +7,14 @@ namespace Codeworkhub.Pages.Apps.MathQuiz
     {
         public class MathQuestion
         {
-            public string QuestionText { get; set; }
-            public int Answer { get; set; }
+            public string? QuestionText { get; set; }
+            public decimal? Answer { get; set; }
         }
 
         public List<MathQuestion> Questions { get; set; } = new();
-        [BindProperty] public List<int> Answers { get; set; }
+        [BindProperty] public List<decimal>? Answers { get; set; }
         public bool ShowResults { get; set; }
-        public int Score { get; set; }
+        public decimal Score { get; set; }
         public string GradeMessage { get; set; }
         public string GradeColor { get; set; }
 
