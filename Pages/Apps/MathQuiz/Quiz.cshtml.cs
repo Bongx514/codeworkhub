@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
+
 
 namespace Codeworkhub.Pages.Apps.MathQuiz
 {
@@ -11,8 +13,17 @@ namespace Codeworkhub.Pages.Apps.MathQuiz
             public decimal? Answer { get; set; }
         }
 
+        public class ReviewAnswer
+        {
+            public string? Question { get; set; }
+            public decimal? CorrectAnswer { get; set; }
+            public decimal? UserAnswer { get; set; }
+        }
+
         public List<MathQuestion> Questions { get; set; } = new();
         [BindProperty] public List<decimal>? Answers { get; set; }
+        public List<ReviewAnswer> IncorrectAnswers { get; set; } = new();
+
         public bool ShowResults { get; set; }
         public decimal Score { get; set; }
         public string GradeMessage { get; set; }
@@ -21,13 +32,34 @@ namespace Codeworkhub.Pages.Apps.MathQuiz
         public void OnGet()
         {
             GenerateRandomQuestions();
+            TempData["quizQuestions"] = JsonConvert.SerializeObject(Questions);
         }
 
         public void OnPost()
         {
-            GenerateRandomQuestions();
+            var storedJson = TempData["quizQuestions"]?.ToString();
+            if (storedJson != null)
+                Questions = JsonConvert.DeserializeObject<List<MathQuestion>>(storedJson)!;
 
-            Score = Questions.Where((q, i) => q.Answer == Answers[i]).Count();
+            Score = 0;
+
+            for (int i = 0; i < Questions.Count; i++)
+            {
+                if (Answers![i] == Questions[i].Answer)
+                {
+                    Score++;
+                }
+                else
+                {
+                    IncorrectAnswers.Add(new ReviewAnswer
+                    {
+                        Question = Questions[i].QuestionText,
+                        CorrectAnswer = Questions[i].Answer,
+                        UserAnswer = Answers[i]
+                    });
+                }
+            }
+
             ShowResults = true;
 
             if (Score >= 9) { GradeMessage = "Legend! 🏆"; GradeColor = "text-yellow-400"; }
@@ -66,4 +98,5 @@ namespace Codeworkhub.Pages.Apps.MathQuiz
             }
         }
     }
+
 }
