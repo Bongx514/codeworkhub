@@ -84,7 +84,7 @@
     const sendBtn = document.getElementById("sendBtn");
 
     function appendUser(text) {
-        output.innerHTML += `<div class='font-bold'><i class='fas fa-user'></i> You:</div><div>${text}</div>`;
+        output.innerHTML += `<div class='font-bold flex gap-2'><i class='fas fa-user'></i> You: <span class='font-normal'>${text}</span></div>`;
         output.scrollTop = output.scrollHeight;
     }
 

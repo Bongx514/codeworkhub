@@ -1,0 +1,168 @@
+﻿@page
+@model Codeworkhub.Pages.Apps.Snake.SnakeGameModel
+
+<div class="pt-8 min-h-[72vh] bg-[#0b1027] flex flex-col items-center text-cyan-300 font-mono relative">
+
+    <!-- SCORE + MULTIPLIER -->
+    <div class="flex items-center gap-6 mb-4">
+        <h2 class="text-2xl font-bold">
+            Score: <span id="score">0</span>
+        </h2>
+
+        <div class="flex items-center gap-2">
+            <label class="font-bold text-cyan-400">Multiplier:</label>
+            <select id="speedMultiplier" class="p-2 rounded bg-[#12172d] border border-cyan-600">
+                <option value="1">x1</option>
+                <option value="2">x2</option>
+                <option value="3">x3</option>
+                <option value="4">x4</option>
+                <option value="5">x5</option>
+            </select>
+        </div>
+
+        <button id="pauseBtn"
+                class="px-4 py-2 bg-yellow-400 text-black font-bold rounded-lg hover:bg-yellow-300 transition">
+            Pause
+        </button>
+    </div>
+
+    <!-- GAME AREA -->
+    <div class="rounded-3xl border-4 border-cyan-600 p-3 shadow-lg shadow-cyan-700/40">
+        <canvas id="gameCanvas" width="500" height="500"
+                class="rounded-3xl bg-[#12172d] max-w-[92vw] max-h-[92vw]"></canvas>
+    </div>
+
+    <!-- MOBILE CONTROLS -->
+    <div class="grid grid-cols-3 gap-4 mt-6 md:hidden text-xl font-bold text-black">
+        <div></div>
+        <button class="ctrl bg-cyan-400 rounded-xl px-6 py-4" data-dir="UP">⬆</button>
+        <div></div>
+        <button class="ctrl bg-cyan-400 rounded-xl px-6 py-4" data-dir="LEFT">⬅</button>
+        <button class="ctrl bg-red-500 rounded-xl px-6 py-4" id="playPauseMobile">⏸</button>
+        <button class="ctrl bg-cyan-400 rounded-xl px-6 py-4" data-dir="RIGHT">➡</button>
+        <div></div>
+        <button class="ctrl bg-cyan-400 rounded-xl px-6 py-4" data-dir="DOWN">⬇</button>
+        <div></div>
+    </div>
+
+    <!-- GAME OVER MODAL -->
+    <div id="gameOverModal"
+         class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-[999]">
+        <div class="bg-[#12172d] border border-cyan-500 p-10 rounded-3xl text-center shadow-lg shadow-cyan-500/40 scale-75 opacity-0 transition-all duration-300"
+             id="modalContent">
+            <h2 class="text-4xl font-extrabold text-cyan-300 mb-4">Game Over</h2>
+            <p class="text-3xl font-bold text-yellow-300">Final Score: <span id="finalScore">0</span></p>
+            <button onclick="restartGame()" class="mt-6 px-6 py-3 bg-cyan-500 text-black font-bold rounded-xl hover:bg-cyan-400 transition">
+                Restart
+            </button>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const scoreDisplay = document.getElementById("score");
+
+        let box = 20;
+        let snake = [{ x: 9 * box, y: 10 * box }];
+        let direction;
+        let food = randomFood();
+        let score = 0;
+
+        let baseSpeed = 150;
+        let speedMultiplier = 1;
+        let paused = false;
+        let gameInterval;
+
+        document.getElementById("speedMultiplier").addEventListener("change", function () {
+            speedMultiplier = parseInt(this.value);
+            restartInterval();
+        });
+
+        document.getElementById("pauseBtn").addEventListener("click", togglePause);
+        document.getElementById("playPauseMobile").addEventListener("click", togglePause);
+
+        document.querySelectorAll(".ctrl").forEach(btn => {
+            btn.addEventListener("click", () => setDirection({ key: btn.dataset.dir }));
+        });
+
+        document.addEventListener("keydown", setDirection);
+
+        function setDirection(e) {
+            if (e.key === "ArrowUp" || e.key === "UP") direction = direction !== "DOWN" ? "UP" : direction;
+            if (e.key === "ArrowDown" || e.key === "DOWN") direction = direction !== "UP" ? "DOWN" : direction;
+            if (e.key === "ArrowLeft" || e.key === "LEFT") direction = direction !== "RIGHT" ? "LEFT" : direction;
+            if (e.key === "ArrowRight" || e.key === "RIGHT") direction = direction !== "LEFT" ? "RIGHT" : direction;
+        }
+
+        function togglePause() {
+            paused = !paused;
+            document.getElementById("pauseBtn").innerText = paused ? "Play" : "Pause";
+            document.getElementById("playPauseMobile").innerText = paused ? "▶" : "⏸";
+        }
+
+        function randomFood() {
+            return { x: Math.floor(Math.random() * 25) * box, y: Math.floor(Math.random() * 25) * box };
+        }
+
+        function restartInterval() {
+            clearInterval(gameInterval);
+            gameInterval = setInterval(drawGame, baseSpeed / speedMultiplier);
+        }
+
+        function drawGame() {
+            if (paused) return;
+
+            ctx.fillStyle = "#0f162f";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "#00ffaa";
+            snake.forEach(s => ctx.fillRect(s.x, s.y, box - 2, box - 2));
+
+            ctx.fillStyle = "#ff0055";
+            ctx.fillRect(food.x, food.y, box - 2, box - 2);
+
+            let head = { x: snake[0].x, y: snake[0].y };
+
+            if (direction === "UP") head.y -= box;
+            if (direction === "DOWN") head.y += box;
+            if (direction === "LEFT") head.x -= box;
+            if (direction === "RIGHT") head.x += box;
+
+            if (head.x === food.x && head.y === food.y) {
+                const add = 1 * speedMultiplier;
+                score += add;
+                scoreDisplay.innerText = score;
+                food = randomFood();
+            } else snake.pop();
+
+            if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || collision(head, snake)) {
+                clearInterval(gameInterval);
+                document.getElementById("finalScore").innerText = score;
+                const modal = document.getElementById("gameOverModal");
+                const content = document.getElementById("modalContent");
+                modal.classList.remove("hidden");
+                setTimeout(() => {
+                    content.classList.remove("scale-75", "opacity-0");
+                    content.classList.add("scale-100", "opacity-100");
+                }, 50);
+                return;
+            }
+
+            snake.unshift(head);
+        }
+
+        function collision(head, body) {
+            return body.some(s => s.x === head.x && s.y === head.y);
+        }
+
+        restartInterval();
+
+        function restartGame() {
+            location.reload();
+        }
+    </script>
+}

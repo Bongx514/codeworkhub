@@ -1,0 +1,19 @@
+﻿#score {
+    transition: transform 0.25s ease, color 0.25s ease;
+}
+
+.floating-score {
+    animation: rise 0.6s ease-out forwards;
+}
+
+@keyframes rise {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -45px);
+    }
+}

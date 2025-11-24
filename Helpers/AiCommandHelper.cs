@@ -9,7 +9,7 @@
             string? action = null;
 
             // --- BASIC FUN COMMANDS ---
-            if (text.Contains("hello") || text.Contains("hi"))
+            if (text.Contains("hello") || text.Contains("hi") || text.Contains("name"))
             {
                 responses.Add("Hi! My name is Phoibe, pronounced 'Fu-Wee-Bee'. Nice to meet you! 😊 \n" +
                     "I’m currently still under development, and our team is working hard to get \n" +
