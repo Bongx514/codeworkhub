@@ -68,11 +68,14 @@
                 responses.Add("🕺💃 *Phoibe attempts an awkward robotic dance* 😂");
             }
 
-            responses.Add("Oh and before I forget, you can try commands like:\n" +
-                "• Open math quiz, typing test, flashcards, or rock paper scissors\n" +
-                "• Tell me a joke\n\n" +
-                "Don’t worry, my creators are working hard to make me \n " +
-                "fully functional soon! 🚀");
+            if (responses.Count == 0 && action == null)
+            {
+                responses.Add("I’m not sure if I can help with that yet \n" +
+                              "Try something like:\n" +
+                              "• Open math quiz / typing speed / flashcards / rock paper scissors\n" +
+                              "• Tell me a joke\n\n" +
+                              "Don’t worry, my creators are working hard to make me fully functional soon 🚀");
+            }
 
             return (responses, action);
         }
