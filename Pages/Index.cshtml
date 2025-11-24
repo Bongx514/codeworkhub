@@ -60,73 +60,77 @@
 <script>AOS.init();</script>
 
 <script>
-        const botReplies = [
-            "Hi, our team is working hard to get this AI integration working, may take longer than expected do not get your hopes up...😂,",
-            "LOL, seriously, come back tomorrow 😅",
-            `<div>You can still try the following for now:<br>
-    <a href="/Apps/MathQuiz/Quiz" class="text-cyan-400 underline hover:text-indigo-400">1. MathsQuiz</a><br>
-    <a href="/Apps/RockPaperScissor/Game" class="text-cyan-400 underline hover:text-indigo-400">2. Rock Paper Scissors</a><br>
-    <a href="/Apps/Typefast/Typefast" class="text-cyan-400 underline hover:text-indigo-400">3. Typing Speed Test</a></div>
-    <a href="/Apps/StudyTools/Flashcards" class="text-cyan-400 underline hover:text-indigo-400">4. Flashcards Test</a></div>`
-        ];
+    const output = document.getElementById("aiOutput");
+    const input = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
 
-        const output = document.getElementById("aiOutput");
-        const input = document.getElementById("userInput");
-        const sendBtn = document.getElementById("sendBtn");
+    function appendUser(text) {
+        output.innerHTML += `<div class='font-bold'"><i class='fas fa-user'></i> You: <span class='font-normal'>${text}</span></div>`;
+        output.scrollTop = output.scrollHeight;
+    }
 
-        async function typeText(text, prefix) {
-            const container = document.createElement("div");
-            container.innerHTML = `<span>${prefix}</span>`;
-            output.appendChild(container);
 
-            for (let i = 0; i < text.length; i++) {
-                container.innerHTML += text[i];
-                output.scrollTop = output.scrollHeight;
-                await new Promise(res => setTimeout(res, 35));
-            }
-            output.appendChild(document.createElement("br"));
+        async function typeBot(text) {
+        const container = document.createElement("div");
+        container.className = "flex gap-2 items-start"; 
+
+        const label = document.createElement("div");
+        label.className = "font-bold";
+        label.innerHTML = `<i class="fa-solid fa-robot"></i>:`;
+
+        const message = document.createElement("span");
+
+        container.appendChild(label);
+        container.appendChild(message);
+        output.appendChild(container);
+
+        for (let i = 0; i < text.length; i++) {
+            message.textContent += text[i];
+            output.scrollTop = output.scrollHeight;
+            await new Promise(res => setTimeout(res, 35));
+        }
+    }
+
+    async function sendMessage() {
+        const text = input.value.trim();
+        if (!text) return;
+
+        if (output.style.display === "none") {
+            output.style.display = "block";
         }
 
-        async function typeHTML(html) {
-            const container = document.createElement("div");
-            container.innerHTML = html;
-            output.appendChild(container);
-            output.scrollTop = output.scrollHeight;
+        appendUser(text);
+        input.value = "";
+
+        const response = await fetch("/Ai/ProcessCommand", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: text })
+        });
+
+        const result = await response.json();
+
+        for (const r of result.replies) {
+            await typeBot(r);
             await new Promise(res => setTimeout(res, 500));
         }
 
-        async function sendMessage() {
-            const text = input.value.trim();
-            if (!text) return;
-
-            if (output.style.display === "none") {
-                output.style.display = "block";
-            }
-
-            output.innerHTML += `<div>🧑 You: ${text}</div>`;
-            input.value = "";
-
-            await new Promise(res => setTimeout(res, 400));
-
-            for (const reply of botReplies) {
-                if (/<a\s+href/.test(reply)) {
-                    await typeHTML(reply);
-                } else {
-                    await typeText(reply, "🤖 Bot: ");
-                }
-                await new Promise(res => setTimeout(res, 600));
-            }
+        if (result.action) {
+            setTimeout(() => window.location.href = result.action, 1200);
         }
+    }
 
-        sendBtn.addEventListener("click", sendMessage);
+    sendBtn.addEventListener("click", sendMessage);
 
-        input.addEventListener("keypress", e => {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
+    input.addEventListener("keypress", e => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
 </script>
+
+
 
 <style>
     .neon-text {
