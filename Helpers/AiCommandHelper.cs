@@ -68,11 +68,11 @@
                 responses.Add("🕺💃 *Phoibe attempts an awkward robotic dance* 😂");
             }
 
-            //responses.Add("Oh and before I forget, you can try commands like:\n" +
-            //    "• Open math quiz, typing test, flashcards, or rock paper scissors\n" +
-            //    "• Tell me a joke\n\n" +
-            //    "Don’t worry, my creators are working hard to make me \n " +
-            //    "fully functional soon! 🚀");
+            responses.Add("Oh and before I forget, you can try commands like:\n" +
+                "• Open math quiz, typing test, flashcards, or rock paper scissors\n" +
+                "• Tell me a joke\n\n" +
+                "Don’t worry, my creators are working hard to make me \n " +
+                "fully functional soon! 🚀");
 
             return (responses, action);
         }
