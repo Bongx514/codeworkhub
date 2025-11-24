@@ -1,0 +1,84 @@
+﻿@page
+@model Codeworkhub.Pages.AboutModel
+@{
+    ViewData["Title"] = "About Codework Hub";
+}
+
+<section class="min-h-screen bg-[#0d1330] text-cyan-200 pt-28 pb-20">
+    <div class="max-w-5xl mx-auto px-6 space-y-12">
+
+        <h1 class="text-5xl font-extrabold text-center neon-text tracking-wider">
+            About Codework Hub
+        </h1>
+
+        <p class="text-xl leading-relaxed text-center opacity-90">
+            Created by <span class="text-indigo-400 font-semibold">L&A Codework Studio</span> — a small but ambitious tech company dedicated
+            to pushing boundaries and transforming the way people experience the web.
+        </p>
+
+        <div class="space-y-10 text-lg leading-relaxed">
+
+            <div>
+                <h2 class="text-2xl font-bold text-cyan-400 mb-3">Our Vision</h2>
+                <p>
+                    Codework Hub exists as a creative playground — a space where we experiment, build, test ideas,
+                    and showcase what is possible through design, development, and imagination.
+                    We believe in constant learning and iterative improvement.
+                </p>
+            </div>
+
+            <hr class="border-cyan-600/30">
+
+            <div>
+                <h2 class="text-2xl font-bold text-cyan-400 mb-3">Purpose of the Platform</h2>
+                <p>
+                    Our goal is to create a powerful and interactive <span class="text-indigo-400 font-semibold">web-hub</span> filled with useful tools, games, study utilities,
+                    and eventually AI-driven smart features to improve productivity, learning, and entertainment.
+                </p>
+                <p class="mt-3">
+                    We want to build technology that grows with people — adapting, learning, and improving over time.
+                </p>
+            </div>
+
+            <hr class="border-cyan-600/30">
+
+            <div>
+                <h2 class="text-2xl font-bold text-cyan-400 mb-3">The Future</h2>
+                <p>
+                    We are actively integrating AI to enhance user experience and automate interactive features.
+                    Our dream is to take website design and functionality to new heights through intelligence and innovation.
+                </p>
+                <p class="mt-3">
+                    This platform will evolve continuously, shaped by creativity and feedback from the community.
+                </p>
+            </div>
+
+            <hr class="border-cyan-600/30">
+
+            <div>
+                <h2 class="text-2xl font-bold text-cyan-400 mb-3">Who We Are</h2>
+                <p>
+                    We are <span class="text-indigo-400 font-semibold">L&A Codework Studio</span>, a small team with bold dreams.
+                    We may be small, but we aim high — building experiences that matter, inspire, and challenge expectations.
+                </p>
+                <p class="mt-3">
+                    Thanks for being part of this journey. We’re only getting started. 🚀
+                </p>
+            </div>
+        </div>
+
+        <div class="text-center mt-14">
+            <a asp-page="/Index"
+               class="px-8 py-4 text-lg font-bold rounded-xl bg-cyan-600 hover:bg-cyan-500 transition-all shadow-lg tracking-wide">
+                Back to Home
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    .neon-text {
+        text-shadow: 0 0 10px #06b6d4, 0 0 20px #06b6d4, 0 0 30px #06b6d4;
+    }
+</style>
