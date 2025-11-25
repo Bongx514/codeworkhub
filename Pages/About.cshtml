@@ -35,9 +35,6 @@
                     Our goal is to create a powerful and interactive <span class="text-indigo-400 font-semibold">web-hub</span> filled with useful tools, games, study utilities,
                     and eventually AI-driven smart features to improve productivity, learning, and entertainment.
                 </p>
-                <p class="mt-3">
-                    We want to build technology that grows with people — adapting, learning, and improving over time.
-                </p>
             </div>
 
             <hr class="border-cyan-600/30">
@@ -47,9 +44,6 @@
                 <p>
                     We are actively integrating AI to enhance user experience and automate interactive features.
                     Our dream is to take website design and functionality to new heights through intelligence and innovation.
-                </p>
-                <p class="mt-3">
-                    This platform will evolve continuously, shaped by creativity and feedback from the community.
                 </p>
             </div>
 
@@ -62,10 +56,18 @@
                     We may be small, but we aim high — building experiences that matter, inspire, and challenge expectations.
                 </p>
                 <p class="mt-3">
-                    Thanks for being part of this journey. We’re only getting started. 🚀
+                    Thanks for being part of this journey. We’re only getting started. 
                 </p>
             </div>
         </div>
+
+        <!-- ACCORDIONS START -->
+        <div class="mt-16 space-y-6">
+            <partial name="Shared/Components/Accordions/_Ai" />
+            <partial name="Shared/Components/Accordions/_Faq" />
+        
+        </div>
+        <!-- ACCORDIONS END -->
 
         <div class="text-center mt-14">
             <a asp-page="/Index"
@@ -76,9 +78,19 @@
     </div>
 </section>
 
-
 <style>
     .neon-text {
         text-shadow: 0 0 10px #06b6d4, 0 0 20px #06b6d4, 0 0 30px #06b6d4;
     }
 </style>
+
+<script>
+    document.querySelectorAll(".accordion-header").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const body = btn.nextElementSibling;
+            const icon = btn.querySelector(".icon");
+            body.classList.toggle("hidden");
+            icon.textContent = icon.textContent === "+" ? "-" : "+";
+        });
+    });
+</script>

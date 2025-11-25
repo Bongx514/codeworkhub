@@ -1,7 +1,7 @@
 ﻿@page
 @model Codeworkhub.Pages.Apps.Snake.SnakeGameModel
 
-<div class="pt-8 min-h-[72vh] bg-[#0b1027] flex flex-col items-center text-cyan-300 font-mono relative">
+<div class="pt-8 min-h-[72dvh] bg-[#0b1027] flex flex-col items-center text-cyan-300 font-mono relative">
 
     <!-- SCORE + MULTIPLIER -->
     <div class="flex items-center gap-6 mb-4">
@@ -35,15 +35,30 @@
     <!-- MOBILE CONTROLS -->
     <div class="grid grid-cols-3 gap-4 mt-6 md:hidden text-xl font-bold text-black">
         <div></div>
-        <button class="ctrl bg-cyan-400 rounded-xl px-6 py-4" data-dir="UP">⬆</button>
+        <button class="ctrl bg-cyan-400 rounded-xl px-6 py-4" data-dir="UP">
+            <i class="fa-solid fa-arrow-up"></i>
+        </button>
         <div></div>
-        <button class="ctrl bg-cyan-400 rounded-xl px-6 py-4" data-dir="LEFT">⬅</button>
-        <button class="ctrl bg-red-500 rounded-xl px-6 py-4" id="playPauseMobile">⏸</button>
-        <button class="ctrl bg-cyan-400 rounded-xl px-6 py-4" data-dir="RIGHT">➡</button>
+
+        <button class="ctrl bg-cyan-400 rounded-xl px-6 py-4" data-dir="LEFT">
+            <i class="fa-solid fa-arrow-left"></i>
+        </button>
+
+        <button class="ctrl bg-red-500 rounded-xl px-6 py-4" id="playPauseMobile">
+            <i class="fa-solid fa-pause"></i>
+        </button>
+
+        <button class="ctrl bg-cyan-400 rounded-xl px-6 py-4" data-dir="RIGHT">
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
         <div></div>
-        <button class="ctrl bg-cyan-400 rounded-xl px-6 py-4" data-dir="DOWN">⬇</button>
+
+        <button class="ctrl bg-cyan-400 rounded-xl px-6 py-4" data-dir="DOWN">
+            <i class="fa-solid fa-arrow-down"></i>
+        </button>
         <div></div>
     </div>
+
 
     <!-- GAME OVER MODAL -->
     <div id="gameOverModal"
