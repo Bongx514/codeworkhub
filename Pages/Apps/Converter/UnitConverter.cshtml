@@ -1,0 +1,97 @@
+﻿@page
+@model Codeworkhub.Pages.Apps.Converter.UnitConverterModel
+@{
+    ViewData["Title"] = "Unit Converter";
+}
+
+<div class="pt-24 pb-16 bg-[#0d1330] min-h-screen text-white">
+    <div class="max-w-2xl mx-auto bg-[#11183e] border border-cyan-600/40 p-8 rounded-2xl shadow-xl">
+
+        <h1 class="text-4xl font-extrabold text-cyan-400 mb-6 flex items-center gap-3">
+            <i class="fa-solid fa-arrows-rotate text-cyan-300"></i>
+            Unit Converter
+        </h1>
+
+        <!-- CATEGORY -->
+        <div class="mb-5">
+            <label class="font-semibold text-lg">Conversion Type</label>
+            <select id="category" class="w-full mt-2 p-3 rounded-lg bg-[#0e1538] border border-cyan-400/40"
+                    onchange="updateUnitOptions()">
+                <option value="length">Length</option>
+                <option value="weight">Weight</option>
+                <option value="temperature">Temperature</option>
+            </select>
+        </div>
+
+        <!-- INPUT VALUE -->
+        <div class="mb-5">
+            <label class="font-semibold text-lg">Value</label>
+            <input type="number" id="valueInput" step="0.01"
+                   class="w-full mt-2 p-3 rounded-lg bg-[#0e1538] border border-cyan-400/40" />
+        </div>
+
+        <!-- FROM & TO UNITS -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+            <div>
+                <label class="font-semibold text-lg">From</label>
+                <select id="fromUnit" class="w-full mt-2 p-3 rounded-lg bg-[#0e1538] border border-cyan-400/40"></select>
+            </div>
+
+            <div>
+                <label class="font-semibold text-lg">To</label>
+                <select id="toUnit" class="w-full mt-2 p-3 rounded-lg bg-[#0e1538] border border-cyan-400/40"></select>
+            </div>
+        </div>
+
+        <!-- BUTTON -->
+        <button class="w-full bg-cyan-500 hover:bg-cyan-400 text-black font-bold p-3 rounded-lg text-lg transition"
+                onclick="convertUnit()">
+            <i class="fa-solid fa-equals mr-2"></i> Convert
+        </button>
+
+        <!-- RESULT -->
+        <div class="mt-6 p-5 bg-[#0e1538] rounded-xl border border-cyan-400/40 text-center">
+            <p id="result" class="text-2xl font-bold text-cyan-300">Result: --</p>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const unitSets = {
+            length: ["Meters", "Kilometers", "Centimeters", "Millimeters", "Miles", "Feet"],
+            weight: ["Kilograms", "Grams", "Pounds"],
+            temperature: ["Celsius", "Fahrenheit", "Kelvin"]
+        };
+
+        function updateUnitOptions() {
+            const category = document.getElementById("category").value;
+            const fromUnit = document.getElementById("fromUnit");
+            const toUnit = document.getElementById("toUnit");
+
+            fromUnit.innerHTML = "";
+            toUnit.innerHTML = "";
+
+            unitSets[category].forEach(u => {
+                fromUnit.innerHTML += `<option value="${u}">${u}</option>`;
+                toUnit.innerHTML += `<option value="${u}">${u}</option>`;
+            });
+        }
+
+        updateUnitOptions(); // initial load
+
+        function convertUnit() {
+            const category = document.getElementById("category").value;
+            const val = parseFloat(document.getElementById("valueInput").value);
+            const from = document.getElementById("fromUnit").value;
+            const to = document.getElementById("toUnit").value;
+
+            fetch(`/Apps/Converter/UnitConverter?handler=Convert&value=${val}&from=${from}&to=${to}&category=${category}`)
+                .then(res => res.text())
+                .then(result => {
+                    document.getElementById("result").innerText = `Result: ${result}`;
+                });
+        }
+    </script>
+}
