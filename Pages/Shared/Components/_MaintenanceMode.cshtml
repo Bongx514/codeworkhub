@@ -1,14 +1,45 @@
 ﻿<div id="maintenanceOverlay"
      class="fixed inset-0 z-[9999] bg-[#0d1330]/95 backdrop-blur-md flex flex-col justify-center items-center text-center px-6">
 
-    <h1 class="text-5xl font-extrabold text-cyan-400 drop-shadow-lg tracking-wide mb-6">
-        🚧 Maintenance Mode
+    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-cyan-400 drop-shadow-lg tracking-wide mb-6 flex items-center gap-3 text-center">
+        <i class="fa-solid fa-triangle-exclamation text-cyan-300 text-2xl sm:text-3xl md:text-4xl"></i>
+        <span>Maintenance Mode</span>
     </h1>
 
-    <p class="text-xl text-cyan-200 max-w-2xl leading-relaxed mb-8">
-        Our platform is undergoing some upgrades to enhance your Interactive Hub experience.
-        We’ll be back very soon. Thank you for your patience 💙
+
+    <p class="text-xl text-cyan-200 max-w-2xl leading-relaxed mb-6">
+        We are currently upgrading the platform — adding new features, fixing bugs, 
+        and improving Phoibe to serve you better.<br />
+        Maintenance is expected to complete by <span class="font-bold text-cyan-400">Friday, 28 November 2026</span>.
     </p>
+
+    <div class="text-2xl font-bold text-cyan-300 mb-6 flex items-center gap-2">
+        <i class="fa-solid fa-hourglass-half"></i> 
+        <span id="countdown"></span>
+    </div>
 
     <div class="animate-spin h-12 w-12 border-4 border-cyan-400 border-t-transparent rounded-full"></div>
 </div>
+
+
+<script>
+    const countdownElement = document.getElementById("countdown");
+    const targetDate = new Date("Nov 28, 2025 23:59:59").getTime();
+
+    const timer = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdownElement.innerHTML = `${days}d : ${hours}h : ${minutes}m : ${seconds}s`;
+
+        if (distance < 0) {
+            clearInterval(timer);
+            countdownElement.innerHTML = "We're back online!";
+        }
+    }, 1000);
+</script>
