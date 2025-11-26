@@ -41,7 +41,8 @@ namespace Codeworkhub.Helpers
                 { new[] { "typing", "typefast", "keyboard", "speed" }, "/Apps/Typefast/Typefast" },
                 { new[] { "flash", "flashcards", "study", "cards" }, "/Apps/StudyTools/Flashcards" },
                 { new[] { "unit", "converter", "convert", "convert units" }, "/Apps/Converter/UnitConverter" },
-                { new[] { "flip", "flipcards", "flip game", "memory game", "cards" }, "/Apps/Flipgame/Flipcards" }
+                { new[] { "flip", "flipcards", "flip game", "memory game", "cards" }, "/Apps/Flipgame/Flipcards" },
+                { new[] { "learn", "tutorials", "Progrmming", "networking", "Science" }, "/Apps/Tutorials/TutorialsCenter" }
             };
 
             // Greetings
@@ -76,7 +77,8 @@ namespace Codeworkhub.Helpers
                               "• `play flip cards`\n" +
                               "• `tell me a joke`\n" +
                               "• `about site`\n" +
-                              "• `about phoibe`");
+                              "• `about phoibe`\n" +
+                              "• `lets learn`");
             }
 
             // ==== Action Routing ====
