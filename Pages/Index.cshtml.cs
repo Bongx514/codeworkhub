@@ -23,7 +23,7 @@ namespace Codeworkhub.Pages
                 new("Budget Planner", "Track expenses with session-based storage.", Link, "💰"),
                 new("Sudoku Mini", "Play or auto-solve Sudoku puzzles.", Link, "🔢"),
                 new("Snake", "Play the classic snake game.", "/Apps/Snake/SnakeGame", "🐍"),
-                new("Tutorials", "Learn basics of programming.", "/Apps/Tutorials/Programing", "</>" )
+                new("Tutorials", "Learn basics of multiple topics.", "/Apps/Tutorials/TutorialsCenter", "</>" )
             };
         }
 
